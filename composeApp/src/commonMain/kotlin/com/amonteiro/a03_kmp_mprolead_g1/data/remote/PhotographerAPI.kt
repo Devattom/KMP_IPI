@@ -25,16 +25,17 @@ suspend fun main() {
 
     println(PhotographerAPI.loadPhotographers().joinToString(separator = "\n\n"))
 
+
     //Pour que le programme s'arrête, inutile sur Android
     PhotographerAPI.close()
 }
 
-object PhotographerAPI  {
+object PhotographerAPI {
     private const val API_URL =
         "https://www.amonteiro.fr/api/photographers?apikey=1234"
 
     //Déclaration du client
-    private val client  = HttpClient {
+    private val client = HttpClient {
         install(ContentNegotiation) {
             json(Json { ignoreUnknownKeys = true }, contentType = ContentType.Any)
         }
@@ -49,7 +50,7 @@ object PhotographerAPI  {
 
     //GET
     suspend fun loadPhotographers(): List<PhotographerDTO> {
-        val response = client.get(API_URL){
+        val response = client.get(API_URL) {
 //            headers {
 //                append("Authorization", "Bearer YOUR_TOKEN")
 //                append("Custom-Header", "CustomValue")
