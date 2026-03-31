@@ -5,7 +5,6 @@ import a03_kmp_mprolead_g1.composeapp.generated.resources.bt_load
 import a03_kmp_mprolead_g1.composeapp.generated.resources.error
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
@@ -42,7 +40,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.amonteiro.a03_kmp_mprolead_g1.data.remote.PhotographerDTO
-import com.amonteiro.a03_kmp_mprolead_g1.presentation.Routes
+import com.amonteiro.a03_kmp_mprolead_g1.presentation.PictureGallery
 import com.amonteiro.a03_kmp_mprolead_g1.presentation.viewmodel.MainViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -78,17 +76,11 @@ fun SearchScreen(modifier: Modifier = Modifier,
             it.stageName.contains(searchText, true)
         }
 
-        //Permet de remplacer très facilement le RecyclerView. LazyRow existe aussi
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.weight(1f)
-        ) {
-            items(list.size) {
-                PictureRowItem(data = list[it], onClick = {
-                    navHostController?.navigate(Routes.DetailRoute(list[it].id))
-                })
-            }
-        }
+
+        PictureGallery(modifier = Modifier.weight(1f),
+            list = list,
+            navHostController = navHostController
+            )
 
         Row {
             Spacer(modifier = Modifier.weight(1f))
