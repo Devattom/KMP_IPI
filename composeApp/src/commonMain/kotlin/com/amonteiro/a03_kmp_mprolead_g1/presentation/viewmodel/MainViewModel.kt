@@ -24,9 +24,9 @@ class MainViewModel : ViewModel() {
                 photoUrl = "https://www.amonteiro.fr/img/fakedata/bob.jpg",
                 story = "Ancien agent secret, Bob a troqué ses gadgets pour un appareil photo après une mission qui a mal tourné. Il traque désormais les instants volés plutôt que les espions.",
                 portfolio = listOf(
-                    "https://example.com/photo1.jpg",
-                    "https://example.com/photo2.jpg",
-                    "https://example.com/photo3.jpg"
+                    "https://picsum.photos/1",
+                    "https://picsum.photos/2",
+                    "https://picsum.photos/3"
                 )
             ),
             PhotographerDTO(
