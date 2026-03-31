@@ -1,9 +1,9 @@
 package com.amonteiro.a03_kmp_mprolead_g1.presentation.ui.screens
 
 import a03_kmp_mprolead_g1.composeapp.generated.resources.Res
+import a03_kmp_mprolead_g1.composeapp.generated.resources.bt_load
 import a03_kmp_mprolead_g1.composeapp.generated.resources.error
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,12 +13,20 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +36,7 @@ import coil3.compose.AsyncImage
 import com.amonteiro.a03_kmp_mprolead_g1.data.remote.PhotographerDTO
 import com.amonteiro.a03_kmp_mprolead_g1.presentation.viewmodel.MainViewModel
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Preview(showBackground = true, showSystemUi = true, uiMode = 2)
 @Composable
@@ -43,18 +52,83 @@ fun SearchScreenPreview() {
 
 @Composable
 fun SearchScreen(modifier: Modifier = Modifier, mainViewModel: MainViewModel = MainViewModel()) {
-    Column(modifier= modifier) {
-        println("SearchScreen()")
-        Text(text = "Text1",fontSize = 20.sp, modifier = Modifier.fillMaxWidth().background(Color.Red).clickable{})
-        Spacer(Modifier.size(8.dp))
-        Text(text = "Text2",fontSize = 14.sp)
+    Column(modifier= modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+
+        SearchBar()
 
         val list = mainViewModel.dataList.collectAsStateWithLifecycle().value
 
-        list.forEach {
-            PictureRowItem(data = it)
+        //Permet de remplacer très facilement le RecyclerView. LazyRow existe aussi
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.weight(1f)
+            ) {
+            items(list.size) {
+                PictureRowItem(data = list[it])
+            }
+        }
+
+        Row {
+            Spacer(modifier = Modifier.weight(1f))
+            Button(
+                onClick = { /* Do something! */ },
+                contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                modifier = Modifier.weight(1f)
+            ) {
+                Icon(
+                    Icons.Filled.Clear,
+                    contentDescription = "Localized description",
+                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text("Clear")
+            }
+            Button(
+                onClick = { /* Do something! */ },
+                contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                modifier = Modifier.weight(1f)
+            ) {
+                Icon(
+                    Icons.Filled.Search,
+                    contentDescription = "Localized description",
+                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                )
+                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+                Text(stringResource(Res.string.bt_load))
+            }
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
+}
+
+@Composable
+fun SearchBar(modifier: Modifier = Modifier) {
+    TextField(
+        value = "", //Valeur affichée
+        onValueChange = {newValue:String -> }, //Nouveau texte entrée
+        leadingIcon = { //Image d'icône
+            Icon(
+                imageVector = Icons.Default.Search,
+                tint = MaterialTheme.colorScheme.primary,
+                contentDescription = null
+            )
+        },
+        singleLine = true,
+        label = { //Texte d'aide qui se déplace
+            Text("Enter text")
+            //Pour aller le chercher dans string.xml, R de votre package com.nom.projet
+            //Text(stringResource(R.string.placeholder_search))
+        },
+        //placeholder = { //Texte d'aide qui disparait
+        //Text("Recherche")
+        //},
+
+        //keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search), // Définir le bouton "Entrée" comme action de recherche
+        //keyboardActions = KeyboardActions(onSearch = {onSearchAction()}), // Déclenche l'action définie
+        //Comment le composant doit se placer
+        modifier = modifier
+            .fillMaxWidth() // Prend toute la largeur
+            .heightIn(min = 56.dp) //Hauteur minimum
+    )
 }
 
 @Composable //Composable affichant 1 élément

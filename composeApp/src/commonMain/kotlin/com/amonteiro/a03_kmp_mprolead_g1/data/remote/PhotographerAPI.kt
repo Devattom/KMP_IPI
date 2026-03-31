@@ -14,7 +14,7 @@ import kotlinx.serialization.json.Json
 
 @Serializable //KotlinX impose cette annotation
 data class PhotographerDTO(
-    val id: Int,
+    var id: Int,
     val stageName: String,
     val photoUrl: String,
     val story: String,
