@@ -83,8 +83,8 @@ fun PictureRowItem(modifier: Modifier = Modifier, data: PhotographerDTO) {
                 .widthIn(max = 100.dp)
         )
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-            Text(text = data.stageName, fontSize = 20.sp, color = Color.Black)
-            Text(text = data.story.take(20) + "...", fontSize = 14.sp, color = Color.Blue)
+            Text(text = data.stageName, fontSize = 20.sp, color = MaterialTheme.colorScheme.tertiary)
+            Text(text = data.story.take(20) + "...", fontSize = 14.sp, color = MaterialTheme.colorScheme.primary)
         }
     }
 }
